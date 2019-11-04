@@ -1,6 +1,7 @@
 package com.cardbox.cardbox.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,9 +65,12 @@ public class TransportadoraService {
 				dadosPersistTransporteAereo.setId(resultadoTransporteAereo.getId());
 				dadosPersistTransporteAereo.setNome(resultadoTransporteAereo.getNome());
 				dadosPersistTransporteAereo.setTempoMedioPorKmAereo(resultadoTransporteAereo.getTempoMedioPorKmAereo());
+				dadosPersistTransporteAereo.setTempoMedioPorKmTerrestre(resultadoTransporteAereo.getTempoMedioPorKmTerrestre());
+				dadosPersistTransporteAereo.setTransporteAereo(resultadoTransporteAereo.isTransporteAereo());
+				dadosPersistTransporteAereo.setTransporteTerrestre(resultadoTransporteAereo.isTransporteTerrestre());
 				dadosPersistTransporteAereo.setValorPorKmAereo(resultadoTransporteAereo.getValorPorKmAereo());
-				
-				
+				dadosPersistTransporteAereo.setValorPorKmTerrestre(resultadoTransporteAereo.getValorPorKmTerrestre());
+
 				if(minimo == 0.0 || minimo > resultadoTransporteAereo.getTempoMedioPorKmAereo()) {
 				
 					listaAuxTransporteAereo.clear();
@@ -84,6 +88,12 @@ public class TransportadoraService {
 					Double minimoEmpate = 0.0;
 			
 					if (listaAuxTransporteAereo.size() == 1) {
+						
+						model.setNome(listaAuxTransporteAereo.get(0).getNome());
+						model.setValor((model.getDistancia() * listaAuxTransporteAereo.get(0).getValorPorKmAereo()) / 10);
+						model.setTempo((Double.valueOf(model.getDistancia()) / listaAuxTransporteAereo.get(0).getTempoMedioPorKmAereo()) * 60);
+						
+						
 						return listaAuxTransporteAereo;
 					} else {
 						
@@ -95,10 +105,15 @@ public class TransportadoraService {
 							
 							CadastroTransportadoraModel dadosEmpatePersistTransporteAereo = new CadastroTransportadoraModel();
 							
+							
 							dadosEmpatePersistTransporteAereo.setId(resultadoEmpateTransporteAereo.getId());
 							dadosEmpatePersistTransporteAereo.setNome(resultadoEmpateTransporteAereo.getNome());
 							dadosEmpatePersistTransporteAereo.setTempoMedioPorKmAereo(resultadoEmpateTransporteAereo.getTempoMedioPorKmAereo());
+							dadosEmpatePersistTransporteAereo.setTempoMedioPorKmTerrestre(resultadoEmpateTransporteAereo.getTempoMedioPorKmTerrestre());
+							dadosEmpatePersistTransporteAereo.setTransporteAereo(resultadoEmpateTransporteAereo.isTransporteAereo());
+							dadosEmpatePersistTransporteAereo.setTransporteTerrestre(resultadoEmpateTransporteAereo.isTransporteTerrestre());
 							dadosEmpatePersistTransporteAereo.setValorPorKmAereo(resultadoEmpateTransporteAereo.getValorPorKmAereo());
+							dadosEmpatePersistTransporteAereo.setValorPorKmTerrestre(resultadoEmpateTransporteAereo.getValorPorKmTerrestre());
 							
 							if(minimoEmpate == 0.0 || minimoEmpate > resultadoEmpateTransporteAereo.getValorPorKmAereo()) {
 								
@@ -109,17 +124,16 @@ public class TransportadoraService {
 							
 							}	else if (minimoEmpate.equals(resultadoEmpateTransporteAereo.getValorPorKmAereo())  && contadorEmpate == 0) {
 								
-								listaAuxTransporteAereo.add(dadosEmpatePersistTransporteAereo);
+								listaAuxEmpateTransporteAereo.add(dadosEmpatePersistTransporteAereo);
 								minimoEmpate = resultadoEmpateTransporteAereo.getValorPorKmAereo();
 							}
 							
 						}
 						
 						
-						return listaAuxTransporteAereo;
+						return listaAuxEmpateTransporteAereo;
 					}
-				
-//			return listaAuxTransporteAereo;
+
 			
 		}
 		

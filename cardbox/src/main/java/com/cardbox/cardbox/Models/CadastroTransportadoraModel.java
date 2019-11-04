@@ -26,20 +26,20 @@ public class CadastroTransportadoraModel implements Serializable {
 	@Column (name = "tempomedioporkmaereo")
 	private Long tempoMedioPorKmAereo;
 	
-//	@Column (name = "tempomedioporkmterrestre")
-//	private Double tempoMedioPorKmTerrestre;
-//	
+	@Column (name = "tempomedioporkmterrestre")
+	private Long tempoMedioPorKmTerrestre;
+	
 	@Column (name = "transporteaereo")
 	private Boolean transporteAereo;
 	
-//	@Column (name = "transporteterrestre")
-//	private Boolean transporteTerrestre;
-//	
+	@Column (name = "transporteterrestre")
+	private Boolean transporteTerrestre;
+	
 	@Column (name = "valorporkmaereo")
 	private Double valorPorKmAereo;
-//	
-//	@Column  (name = "valorporkmterrestre")
-//	private Double valorPorKmTerrestre;
+	
+	@Column  (name = "valorporkmterrestre")
+	private Double valorPorKmTerrestre;
 
 	public Long getId() {
 		return id;
@@ -65,30 +65,30 @@ public class CadastroTransportadoraModel implements Serializable {
 		this.tempoMedioPorKmAereo = tempoMedioPorKmAereo;
 	}
 
-////	public Double getTempoMedioPorKmTerrestre() {
-////		return tempoMedioPorKmTerrestre;
-////	}
-////
-////	public void setTempoMedioPorKmTerrestre(Double tempoMedioPorKmTerrestre) {
-////		this.tempoMedioPorKmTerrestre = tempoMedioPorKmTerrestre;
-////	}
-////
-////	public boolean isTransporteAereo() {
-////		return transporteAereo;
-////	}
-////
-////	public void setTransporteAereo(boolean transporteAereo) {
-////		this.transporteAereo = transporteAereo;
-////	}
-////
-////	public boolean isTransporteTerrestre() {
-////		return transporteTerrestre;
-////	}
-////
-////	public void setTransporteTerrestre(boolean transporteTerrestre) {
-////		this.transporteTerrestre = transporteTerrestre;
-////	}
-////
+	public Long getTempoMedioPorKmTerrestre() {
+		return tempoMedioPorKmTerrestre;
+	}
+
+	public void setTempoMedioPorKmTerrestre(Long tempoMedioPorKmTerrestre) {
+		this.tempoMedioPorKmTerrestre = tempoMedioPorKmTerrestre;
+	}
+
+	public boolean isTransporteAereo() {
+		return transporteAereo;
+	}
+
+	public void setTransporteAereo(boolean transporteAereo) {
+		this.transporteAereo = transporteAereo;
+	}
+
+	public boolean isTransporteTerrestre() {
+		return transporteTerrestre;
+	}
+
+	public void setTransporteTerrestre(boolean transporteTerrestre) {
+		this.transporteTerrestre = transporteTerrestre;
+	}
+
 	public Double getValorPorKmAereo() {
 		return valorPorKmAereo;
 	}
@@ -96,27 +96,27 @@ public class CadastroTransportadoraModel implements Serializable {
 	public void setValorPorKmAereo(Double valorPorKmAereo) {
 		this.valorPorKmAereo = valorPorKmAereo;
 	}
-////
-////	public Double getValorPorKmTerrestre() {
-////		return valorPorKmTerrestre;
-////	}
-////
-////	public void setValorPorKmTerrestre(Double valorPorKmTerrestre) {
-////		this.valorPorKmTerrestre = valorPorKmTerrestre;
-////	}
-//
-//	public CadastroTransportadoraModel(String nome, Double tempoMedioPorKmAereo,
-//			Double tempoMedioPorKmTerrestre, boolean transporteAereo, boolean transporteTerrestre,
-//			Double valorPorKmAereo, Double valorPorKmTerrestre) {
-//		super();
-//		this.nome = nome;
-//		this.tempoMedioPorKmAereo = tempoMedioPorKmAereo;
-//		this.tempoMedioPorKmTerrestre = tempoMedioPorKmTerrestre;
-//		this.transporteAereo = transporteAereo;
-//		this.transporteTerrestre = transporteTerrestre;
-//		this.valorPorKmAereo = valorPorKmAereo;
-//		this.valorPorKmTerrestre = valorPorKmTerrestre;
-//	}
+
+	public Double getValorPorKmTerrestre() {
+		return valorPorKmTerrestre;
+	}
+
+	public void setValorPorKmTerrestre(Double valorPorKmTerrestre) {
+		this.valorPorKmTerrestre = valorPorKmTerrestre;
+	}
+
+	public CadastroTransportadoraModel(String nome, Long tempoMedioPorKmAereo,
+			Long tempoMedioPorKmTerrestre, boolean transporteAereo, boolean transporteTerrestre,
+			Double valorPorKmAereo, Double valorPorKmTerrestre) {
+		super();
+		this.nome = nome;
+		this.tempoMedioPorKmAereo = tempoMedioPorKmAereo;
+		this.tempoMedioPorKmTerrestre = tempoMedioPorKmTerrestre;
+		this.transporteAereo = transporteAereo;
+		this.transporteTerrestre = transporteTerrestre;
+		this.valorPorKmAereo = valorPorKmAereo;
+		this.valorPorKmTerrestre = valorPorKmTerrestre;
+	}
 
 	public CadastroTransportadoraModel() {
 		super();

@@ -141,9 +141,9 @@ public class TransportadoraModel implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TransportadoraModel [id=" + id + ", origem=" + origem + ", destino=" + destino + ", distancia="
-				+ distancia + ", tipoDeTransporte=" + tipoDeTransporte + ", prioridade=" + prioridade + ", nome=" + nome
-				+ ", valor=" + valor + ", tempo=" + tempo + "]";
+		return "TransportadoraModel [nome=" + nome + ", valor=" + valor + ", tempo=" + tempo + "]";
 	}
+
+	
 	
 }
