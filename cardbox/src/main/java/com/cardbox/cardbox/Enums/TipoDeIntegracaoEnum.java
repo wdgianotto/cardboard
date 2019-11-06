@@ -2,7 +2,7 @@ package com.cardbox.cardbox.Enums;
 
 public enum TipoDeIntegracaoEnum {
 
-	AEREO("Aereo"), TERRESTRE("Terrestre"), AEREO_TERRESTRE("Aereo Terrestre");
+	AEREO("Aereo"), TERRESTRE("Terrestre"), AEREO_TERRESTRE("Aereo Terrestre"), EMPTY("Empty");
 	
 	private String descricao;
 

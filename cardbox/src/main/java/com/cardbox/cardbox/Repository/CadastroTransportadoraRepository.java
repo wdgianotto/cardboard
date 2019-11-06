@@ -12,5 +12,6 @@ import com.cardbox.cardbox.Models.CadastroTransportadoraModel;
 public interface CadastroTransportadoraRepository extends CrudRepository<CadastroTransportadoraModel, Long>{
 
 	public List<CadastroTransportadoraModel> findAllByTransporteAereo(Boolean t);
-	
+	public List<CadastroTransportadoraModel> findAllByTransporteTerrestre(Boolean t);
+	public List<CadastroTransportadoraModel> findAll();
 }

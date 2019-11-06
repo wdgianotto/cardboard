@@ -39,23 +39,10 @@ public class TransportadoraModel implements Serializable {
 	
 	@Column(name = "prioridade")
 	private String prioridade;
-	
-	@Column(name = "nome")
-	private String nome;
-	
-	@Column(name = "valor")
-	private Double valor;
-	
-	@Column(name = "tempo")
-	private Double tempo;
-	
 
 	public TransportadoraModel(String origem, String destino, Long distancia, String tipoDeTransporte,
 			String prioridade) {
 		super();
-		this.nome = null;
-		this.valor = 0d;
-		this.tempo = 0d;
 		this.origem = origem;
 		this.destino = destino;
 		this.distancia = distancia;
@@ -115,34 +102,6 @@ public class TransportadoraModel implements Serializable {
 		this.prioridade = prioridade;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
-	public Double getTempo() {
-		return tempo;
-	}
-
-	public void setTempo(Double tempo) {
-		this.tempo = tempo;
-	}
-
-	@Override
-	public String toString() {
-		return "TransportadoraModel [nome=" + nome + ", valor=" + valor + ", tempo=" + tempo + "]";
-	}
 
 	
 	

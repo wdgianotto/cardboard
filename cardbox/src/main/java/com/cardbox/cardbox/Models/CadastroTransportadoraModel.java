@@ -40,7 +40,7 @@ public class CadastroTransportadoraModel implements Serializable {
 	
 	@Column  (name = "valorporkmterrestre")
 	private Double valorPorKmTerrestre;
-
+	
 	public Long getId() {
 		return id;
 	}

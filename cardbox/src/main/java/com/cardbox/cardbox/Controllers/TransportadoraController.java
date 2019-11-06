@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cardbox.cardbox.Models.CadastroTransportadoraModel;
 import com.cardbox.cardbox.Models.TransportadoraModel;
+import com.cardbox.cardbox.Models.TransportadoraRetorno;
 import com.cardbox.cardbox.Service.TransportadoraService;
 
 @RestController
@@ -26,7 +27,7 @@ public class TransportadoraController {
 	
 
 	@RequestMapping(value = ("/{origem}/{destino}/{distancia}/{tipodetransporte}/{prioridade}"), method = RequestMethod.GET)
-	public ResponseEntity<List<CadastroTransportadoraModel>> find (@PathVariable String origem,
+	public ResponseEntity<List<TransportadoraRetorno>> find (@PathVariable String origem,
 									 				 @PathVariable String destino,
 								 				 	 @PathVariable Long distancia,
 								 				 	 @PathVariable String tipodetransporte,
@@ -34,12 +35,28 @@ public class TransportadoraController {
 
 		TransportadoraModel model = new TransportadoraModel(origem, destino, distancia, tipodetransporte, prioridade);
 		
-		List<CadastroTransportadoraModel> ret = transportadoraService.calculaMelhorPrazo(model);
+		List<TransportadoraRetorno> ret = transportadoraService.calculaMelhorPrazo(model);
 		
 		return ResponseEntity.ok().body(ret);
 		
 		
 	}
+	
+//	@RequestMapping(value = ("/{origem}/{destino}/{distancia}/{tipodetransporte}/{prioridade}"), method = RequestMethod.GET)
+//	public ResponseEntity<List<CadastroTransportadoraModel>> find (@PathVariable String origem,
+//									 				 @PathVariable String destino,
+//								 				 	 @PathVariable Long distancia,
+//								 				 	 @PathVariable String tipodetransporte,
+//								 				 	 @PathVariable String prioridade) {
+//
+//		TransportadoraModel model = new TransportadoraModel(origem, destino, distancia, tipodetransporte, prioridade);
+//		
+//		List<CadastroTransportadoraModel> ret = transportadoraService.calculaMelhorPrazo(model);
+//		
+//		return ResponseEntity.ok().body(ret);
+//		
+//		
+//	}
 	
 //	@RequestMapping(value = "/{model}", method=RequestMethod.POST)
 //	public void salvar (@PathVariable Integer id, 
