@@ -35,7 +35,7 @@ public class TransportadoraController {
 
 		TransportadoraModel model = new TransportadoraModel(origem, destino, distancia, tipodetransporte, prioridade);
 		
-		List<TransportadoraRetorno> ret = transportadoraService.calculaMelhorPrazo(model);
+		List<TransportadoraRetorno> ret = transportadoraService.calculaMelhorPrazoValor(model);
 		
 		return ResponseEntity.ok().body(ret);
 		
