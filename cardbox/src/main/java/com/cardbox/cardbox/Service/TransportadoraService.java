@@ -1,9 +1,7 @@
 package com.cardbox.cardbox.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,8 @@ public class TransportadoraService {
 	@Autowired
 	private CadastroTransportadoraRepository cadastroTransportadoraRepository;
 
-
+	String PRAZO = "Prazo";
+	String VALOR = "Valor";
 
 
 	public List<TransportadoraRetorno> calculaMelhorPrazoValor(TransportadoraModel model) {
@@ -36,10 +35,10 @@ public class TransportadoraService {
 			List<CadastroTransportadoraModel> listaTansporte = cadastroTransportadoraRepository
 					.findAllByTransporteTerrestre(Boolean.TRUE);
 
-			listaAuxTransporte = calculo(listaTansporte, model,  model.getPrioridade());
+			listaAuxTransporte = calculo(listaTansporte, model, model.getPrioridade());
 			listaAuxTransporteRetorno = retornoResultado(listaAuxTransporte, model);
 			return listaAuxTransporteRetorno;
-			
+
 		}
 
 		if (TipoDeIntegracaoEnum.EMPTY.getDescricao().equals(tipoTransporte)) {
@@ -63,21 +62,22 @@ public class TransportadoraService {
 	}
 
 	private List<CadastroTransportadoraModel> calculo(List<CadastroTransportadoraModel> resultadoTransporte,
-			TransportadoraModel dadosRequisição, String prioridade) {
-		
-		
+													  TransportadoraModel dadosRequisicao, String prioridade) {
+
+		List<CadastroTransportadoraModel> retorno = new ArrayList<>();
 		List<CadastroTransportadoraModel> listaAuxTransporte = new ArrayList<>();
 		String prioridadeTransportadora = prioridade;
-		
+
 		Double valor = 0D;
 		Double minimo = 0D;
 
+
 		for (CadastroTransportadoraModel resultadoAuxTransporte : resultadoTransporte) {
 
-			if ("Prazo".equals(prioridadeTransportadora)) {
-				valor = verificaRequisiçãoPrazo(resultadoAuxTransporte, dadosRequisição);
-			} else if (("Valor".equals(prioridadeTransportadora))) {
-				valor = verificaRequisiçãoValor(resultadoAuxTransporte, dadosRequisição);
+			if (PRAZO.equals(prioridadeTransportadora)) {
+				valor = verificaRequisicaoPrazo(resultadoAuxTransporte, dadosRequisicao);
+			} else if ((VALOR.equals(prioridadeTransportadora))) {
+				valor = verificaRequisicaoValor(resultadoAuxTransporte, dadosRequisicao);
 			}
 
 			int contador = 0;
@@ -87,8 +87,7 @@ public class TransportadoraService {
 			dadosPersistTransporte.setId(resultadoAuxTransporte.getId());
 			dadosPersistTransporte.setNome(resultadoAuxTransporte.getNome());
 			dadosPersistTransporte.setTempoMedioPorKmAereo(resultadoAuxTransporte.getTempoMedioPorKmAereo());
-			dadosPersistTransporte
-					.setTempoMedioPorKmTerrestre(resultadoAuxTransporte.getTempoMedioPorKmTerrestre());
+			dadosPersistTransporte.setTempoMedioPorKmTerrestre(resultadoAuxTransporte.getTempoMedioPorKmTerrestre());
 			dadosPersistTransporte.setTransporteAereo(resultadoAuxTransporte.isTransporteAereo());
 			dadosPersistTransporte.setTransporteTerrestre(resultadoAuxTransporte.isTransporteTerrestre());
 			dadosPersistTransporte.setValorPorKmAereo(resultadoAuxTransporte.getValorPorKmAereo());
@@ -106,57 +105,99 @@ public class TransportadoraService {
 				listaAuxTransporte.add(dadosPersistTransporte);
 				minimo = valor;
 			}
-
 		}
-		
-		if (listaAuxTransporte.size() == 1 || prioridadeTransportadora != dadosRequisição.getPrioridade()) {
+		if (listaAuxTransporte.size() == 1 || prioridadeTransportadora != dadosRequisicao.getPrioridade()) {
+			retorno = listaAuxTransporte;
 
 		} else {
-			if ("Prazo".equals(prioridadeTransportadora)) {
-				prioridadeTransportadora = "Valor";
-			} else {
-				prioridadeTransportadora = "Prazo";
+			retorno = desempate(listaAuxTransporte, dadosRequisicao, prioridadeTransportadora);
+		}
+			return retorno;
+		}
+
+	private List<CadastroTransportadoraModel> desempate(List<CadastroTransportadoraModel> resultadoTransporte,
+													  TransportadoraModel dadosRequisicao, String prioridade) {
+
+		List<CadastroTransportadoraModel> retorno = new ArrayList<>();
+		List<CadastroTransportadoraModel> listaAuxTransporte = new ArrayList<>();
+
+		if (PRAZO.equals(prioridade)) {
+			prioridade = VALOR;
+		} else {
+			prioridade = PRAZO;
+		}
+
+		String prioridadeTransportadora = prioridade;
+
+		Double valor = 0D;
+		Double minimo = 0D;
+
+		for (CadastroTransportadoraModel resultadoAuxTransporte : resultadoTransporte) {
+
+			if (PRAZO.equals(prioridadeTransportadora)) {
+				valor = verificaRequisicaoPrazo(resultadoAuxTransporte, dadosRequisicao);
+			} else if ((VALOR.equals(prioridadeTransportadora))) {
+				valor = verificaRequisicaoValor(resultadoAuxTransporte, dadosRequisicao);
 			}
-			calculo(listaAuxTransporte, dadosRequisição, prioridadeTransportadora);
+
+			int contador = 0;
+
+			CadastroTransportadoraModel dadosPersistTransporte = new CadastroTransportadoraModel();
+
+			dadosPersistTransporte.setId(resultadoAuxTransporte.getId());
+			dadosPersistTransporte.setNome(resultadoAuxTransporte.getNome());
+			dadosPersistTransporte.setTempoMedioPorKmAereo(resultadoAuxTransporte.getTempoMedioPorKmAereo());
+			dadosPersistTransporte.setTempoMedioPorKmTerrestre(resultadoAuxTransporte.getTempoMedioPorKmTerrestre());
+			dadosPersistTransporte.setTransporteAereo(resultadoAuxTransporte.isTransporteAereo());
+			dadosPersistTransporte.setTransporteTerrestre(resultadoAuxTransporte.isTransporteTerrestre());
+			dadosPersistTransporte.setValorPorKmAereo(resultadoAuxTransporte.getValorPorKmAereo());
+			dadosPersistTransporte.setValorPorKmTerrestre(resultadoAuxTransporte.getValorPorKmTerrestre());
+
+			if (minimo == 0.0 || minimo > valor) {
+
+				listaAuxTransporte.clear();
+				listaAuxTransporte.add(dadosPersistTransporte);
+				minimo = valor;
+				contador++;
+
+			} else if (minimo.equals(valor) && contador == 0) {
+
+				listaAuxTransporte.add(dadosPersistTransporte);
+				minimo = valor;
+			}
 		}
 		return listaAuxTransporte;
+	}
+
+	private List<TransportadoraRetorno> retornoResultado(List<CadastroTransportadoraModel> listaAuxTransporte,
+														 TransportadoraModel transportadoraList) {
+
+		Double valor = 0D;
+		Double tempo = 0D;
+
+		List<TransportadoraRetorno> listaAuxTransporteRetorno = new ArrayList<>();
+
+		for (CadastroTransportadoraModel aux : listaAuxTransporte) {
+
+			TransportadoraRetorno dadosPersistTransporteRetorno = new TransportadoraRetorno();
+
+				tempo = verificaRequisicaoPrazo(aux, transportadoraList);
+				valor = verificaRequisicaoValor(aux, transportadoraList);
+
+			dadosPersistTransporteRetorno.setNome(aux.getNome());
+			dadosPersistTransporteRetorno.setTempo((Double.valueOf(transportadoraList.getDistancia()) / tempo) * 60);
+			dadosPersistTransporteRetorno.setValor((transportadoraList.getDistancia() * valor) / 10);
+
+			listaAuxTransporteRetorno.add(dadosPersistTransporteRetorno);
+
+		}
+
+		return listaAuxTransporteRetorno;
 
 	}
 
-	private List<TransportadoraRetorno> retornoResultado (List<CadastroTransportadoraModel> listaAuxTransporte, TransportadoraModel transportadoraList){
-			
-			Double valor = 0D;
-			
-
-			List<TransportadoraRetorno> listaAuxTransporteRetorno = new ArrayList<>();
-		
-			for (CadastroTransportadoraModel aux : listaAuxTransporte) {
-			
-				TransportadoraRetorno dadosPersistTransporteRetorno = new TransportadoraRetorno();
-				
-				if ("Prazo".equals(transportadoraList.getPrioridade())) {
-					valor = verificaRequisiçãoPrazo(aux, transportadoraList);
-				} else if ("Valor".equals(transportadoraList.getPrioridade())) {
-					valor = verificaRequisiçãoValor(aux, transportadoraList);
-				}
-				
-			dadosPersistTransporteRetorno.setNome(aux.getNome());
-			dadosPersistTransporteRetorno.setTempo((Double.valueOf(transportadoraList.getDistancia())
-					/ valor) * 60);
-			dadosPersistTransporteRetorno
-					.setValor((transportadoraList.getDistancia() * valor) / 10);
-			
-			listaAuxTransporteRetorno.add(dadosPersistTransporteRetorno);
-			
-			
-			}
-			
-			return listaAuxTransporteRetorno;
-
-		}
-
-	private Double verificaRequisiçãoPrazo(CadastroTransportadoraModel listaAuxTransporte,
-			TransportadoraModel transportadoraList) {
+	private Double verificaRequisicaoPrazo(CadastroTransportadoraModel listaAuxTransporte,
+                                           TransportadoraModel transportadoraList) {
 		String tipoTransporte = transportadoraList.getTipoDeTransporte();
 		Double valor = 0D;
 
@@ -164,9 +205,11 @@ public class TransportadoraService {
 			valor = Double.valueOf(listaAuxTransporte.getTempoMedioPorKmTerrestre());
 		}
 
-		if (TipoDeIntegracaoEnum.EMPTY.getDescricao().equals(tipoTransporte)) {
-			valor = Double.valueOf(listaAuxTransporte.getTempoMedioPorKmAereo());
-		}
+//		if (TipoDeIntegracaoEnum.EMPTY.getDescricao().equals(tipoTransporte) && PRAZO.equals(transportadoraList.getPrioridade()) && listaAuxTransporte.getTempoMedioPorKmAereo() > 0) {
+//			valor = Double.valueOf(listaAuxTransporte.getTempoMedioPorKmAereo());
+//		} else {
+//			valor = Double.valueOf(listaAuxTransporte.getTempoMedioPorKmTerrestre());
+//		}
 
 		if (TipoDeIntegracaoEnum.AEREO.getDescricao().equals(tipoTransporte)) {
 			valor = Double.valueOf(listaAuxTransporte.getTempoMedioPorKmAereo());
@@ -175,8 +218,8 @@ public class TransportadoraService {
 		return valor;
 	}
 
-	private Double verificaRequisiçãoValor(CadastroTransportadoraModel listaAuxTransporte,
-			TransportadoraModel transportadoraList) {
+	private Double verificaRequisicaoValor(CadastroTransportadoraModel listaAuxTransporte,
+                                           TransportadoraModel transportadoraList) {
 		String tipoTransporte = transportadoraList.getTipoDeTransporte();
 		Double valor = 0D;
 
@@ -184,9 +227,11 @@ public class TransportadoraService {
 			valor = Double.valueOf(listaAuxTransporte.getValorPorKmTerrestre());
 		}
 
-		if (TipoDeIntegracaoEnum.EMPTY.getDescricao().equals(tipoTransporte)) {
-			valor = Double.valueOf(listaAuxTransporte.getValorPorKmTerrestre());
-		}
+//		if (TipoDeIntegracaoEnum.EMPTY.getDescricao().equals(tipoTransporte) && PRAZO.equals(transportadoraList.getPrioridade()) && listaAuxTransporte.getValorPorKmAereo() > 0) {
+//			valor = Double.valueOf(listaAuxTransporte.getValorPorKmAereo());
+//		} else {
+//			valor = Double.valueOf(listaAuxTransporte.getValorPorKmTerrestre());
+//		}
 
 		if (TipoDeIntegracaoEnum.AEREO.getDescricao().equals(tipoTransporte)) {
 			valor = Double.valueOf(listaAuxTransporte.getValorPorKmAereo());
