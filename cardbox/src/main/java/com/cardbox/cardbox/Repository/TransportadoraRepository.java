@@ -11,7 +11,7 @@ import com.cardbox.cardbox.Models.TransportadoraModel;
 public interface TransportadoraRepository extends CrudRepository<TransportadoraModel, Integer>{
 
 	public TransportadoraModel findByOrigem(String origem); 
-//	public TransportadoraModel findByTipoTransporte(String tipodetransporte);
+
 	
 	
 }

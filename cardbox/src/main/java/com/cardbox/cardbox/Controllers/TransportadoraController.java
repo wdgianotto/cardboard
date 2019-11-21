@@ -41,29 +41,4 @@ public class TransportadoraController {
 		
 		
 	}
-	
-//	@RequestMapping(value = ("/{origem}/{destino}/{distancia}/{tipodetransporte}/{prioridade}"), method = RequestMethod.GET)
-//	public ResponseEntity<List<CadastroTransportadoraModel>> find (@PathVariable String origem,
-//									 				 @PathVariable String destino,
-//								 				 	 @PathVariable Long distancia,
-//								 				 	 @PathVariable String tipodetransporte,
-//								 				 	 @PathVariable String prioridade) {
-//
-//		TransportadoraModel model = new TransportadoraModel(origem, destino, distancia, tipodetransporte, prioridade);
-//		
-//		List<CadastroTransportadoraModel> ret = transportadoraService.calculaMelhorPrazo(model);
-//		
-//		return ResponseEntity.ok().body(ret);
-//		
-//		
-//	}
-	
-//	@RequestMapping(value = "/{model}", method=RequestMethod.POST)
-//	public void salvar (@PathVariable Integer id, 
-//						@PathVariable String destino) {
-//		Optional<TransportadoraModel> model = transportadoraService.buscarTransportadora(id);
-//		model.get().setDestino(destino);
-//		transportadoraService.salvarDados(model);
-//
-//	}
 }
