@@ -197,11 +197,6 @@ public class TransportadoraService {
 				tempo = verificaRequisicaoPrazo(aux, transportadoraList);
 				valor = verificaRequisicaoValor(aux, transportadoraList);
 
-//				String formatTempo = (Double.valueOf(transportadoraList.getDistancia()) / tempo) * 60);
-//				String formatValor = (transportadoraList.getDistancia() * valor) / 10);
-
-
-
 			dadosPersistTransporteRetorno.setNome(aux.getNome());
 			dadosPersistTransporteRetorno.setTempo((Double.valueOf(transportadoraList.getDistancia()) / tempo) * 60);
 			dadosPersistTransporteRetorno.setValor((transportadoraList.getDistancia() * valor) / 10);
